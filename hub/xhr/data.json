@@ -1,0 +1,4 @@
+{
+  "message": "Hello from hub/xhr/data.json!",
+  "example": "This JSON was loaded with XMLHttpRequest."
+}

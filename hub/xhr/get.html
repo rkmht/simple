@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple XHR GET Request</title>
+</head>
+<body>
+  <h1>Simple XHR GET Request</h1>
+  <div id="div1">Loading JSON...</div>
+  <button id="load-button" type="button">Load again</button>
+  <div id="div2"></div>
+
+  <script>
+    const div1 = document.getElementById("div1");
+    const div2 = document.getElementById("div2");
+    const loadButton = document.getElementById("load-button");
+
+    function loadJson(target) {
+      const request = new XMLHttpRequest();
+      request.open("GET", "data.json");
+      request.setRequestHeader("Accept", "application/json");
+
+      request.onload = function () {
+        if (request.status < 200 || request.status >= 300) {
+          target.textContent = `Request failed with status ${request.status}.`;
+          return;
+        }
+
+        const content = document.createElement("pre");
+        content.textContent = JSON.stringify(JSON.parse(request.responseText), null, 2);
+
+        if (target === div1) {
+          target.textContent = "";
+        }
+
+        target.appendChild(content);
+      };
+
+      request.onerror = function () {
+        target.textContent = "The request could not be completed.";
+      };
+
+      request.send();
+    }
+
+    loadJson(div1);
+    loadButton.addEventListener("click", function () {
+      loadJson(div2);
+    });
+  </script>
+</body>
+</html>
